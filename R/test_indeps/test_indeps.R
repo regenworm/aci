@@ -122,8 +122,13 @@ test_indeps.loop <- function(test_function, test_data, maxcset=Inf, n, tested_in
   # Function for conducting all independence tests for one data set.
   for (csetsize in index(0,maxcset) ) { #go from simpler to more complicated tests       
     for ( i in 1:(n-1)) {
-      tested_independences_j <- foreach (j = (i+1):n) %do% {
-        test_indeps.parallel.loop(test_function, test_data, n, i, j, csetsize, conditioning_vars)
+      if (i==1) browser()
+#      tested_independences_j <- foreach (j = (i+1):n) %do% {
+#        test_indeps.parallel.loop(test_function, test_data, n, i, j, csetsize, conditioning_vars)
+      tested_independences_j <- list() 
+      for (j in (i+1):n) {
+        t <- test_indeps.parallel.loop(test_function, test_data, n, i, j, csetsize, conditioning_vars)
+        tested_independences_j[[length(tested_independences_j) + 1]] <- t
       } #for j
       for (test_result_list in tested_independences_j) {
         for (test_result in test_result_list) {

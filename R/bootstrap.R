@@ -39,36 +39,16 @@ bootstrap <- function(repeat_bootstrap=10,
   L$G <- L$G/repeat_bootstrap
   L$Ge <- L$Ge/repeat_bootstrap
   L$objective <- -1
-  
-  if (!is.null(solverConfig$outputClingo)){
-      G <- if (solverConfig$evalDirectCauses) {L$G} else {L$C}
-      
-      outputFile <- file(solverConfig$outputClingo, "w")
-      for (i in 1:nrow(G)){
-          for (j in 1:ncol(G)){
-              if (G[i,j] < 0) {
-                  cat("-", file=outputFile)
-              }
-              cat("causes(",j,",", i,")=", abs(G[i,j]), sep="", file=outputFile)
-              if (!is.infinite(G[i,j])){
-                  cat(".00000", sep="", file=outputFile)
-              }
-              cat("\n", sep="", file=outputFile)
-          }
-      }
-      close(outputFile)
-  }
 
   L
 }
 
 
-bootstrap.loop <- function(data_proportion=0.5, N, solverConfig, testConfig, 
+bootstrap.loop <- function(data_proportion=0.9999, N, solverConfig, testConfig, 
                            filename_template, tmpDir, bckg_file, bootstrap_iter, verbose) {
   MD <- solverConfig$MD
   
   filename_template_i <- paste(filename_template, "_", bootstrap_iter, sep="")
-  
   # Pick randomly data_proportion (e.g. half) of the samples.
   indices <- as.integer(runif(N*data_proportion)*N*data_proportion)
   halfD <- MD$D
@@ -79,7 +59,8 @@ bootstrap.loop <- function(data_proportion=0.5, N, solverConfig, testConfig,
   halfD[[1]]$N <- halfD[[1]]$N*data_proportion
   #halfD[[1]]$Cx <- cov(halfD[[1]]$data)
   halfMD <- list(D=halfD, M=MD$M)
-  
+
+
   test_time <- tic()
   t <- test_indeps(D=halfD, testConfig=testConfig, verbose=verbose)
   test_time <- toc(test_time)
