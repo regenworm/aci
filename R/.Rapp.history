@@ -1,0 +1,3 @@
+setwd('~/aci')
+setwd('~/aci/R')
+load('load.R')
