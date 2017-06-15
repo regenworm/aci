@@ -38,10 +38,16 @@ simulate_data <- function(simulationConfig, samples, model, indPath, isOracle = 
           ", topology=",simulationConfig$topology, ", probability of edge = ", simulationConfig$pedge, 
           ", confounder proportion=",simulationConfig$confounder_proportion,
           ".\n",sep='')
+    if (typeOfSimulator == "int") {
+      
+      M <- simul_interventions.generateModel(p=simulationConfig$n, numConf = as.integer(simulationConfig$n*simulationConfig$confounder_proportion), numInts = simulationConfig$numInts)
+      
+    } else {
       M <- generateModel(n=simulationConfig$n, restrict=simulationConfig$restrict, topology=simulationConfig$topology, 
                        model=model, samples=samples, pedge=simulationConfig$pedge, 
                        confounder_proportion=simulationConfig$confounder_proportion, 
                        verbose=verbose)
+    }
   }
   
   if (returnData) {
@@ -66,8 +72,17 @@ simulate_data <- function(simulationConfig, samples, model, indPath, isOracle = 
         cat("\n* Generating the sample data using the experiment configuration: exconf=", simulationConfig$exconf, 
             ", number of samples=", simulationConfig$N, ".\n",sep='')
     }
-    D <- generateSampleData(n=simulationConfig$n, exconf=simulationConfig$exconf, test=test, N=simulationConfig$N, 
+    if (grepl("int", typeOfSimulator)) {
+      
+      MD <- simul_interventions.generateData(M=M, nObs=simulationConfig$N)
+      
+      D <- MD$D
+      
+      
+    } else{ 
+      D <- generateSampleData(n=simulationConfig$n, exconf=simulationConfig$exconf, test=test, N=simulationConfig$N, 
                               M=M, verbose=verbose)
+    }
     
   } else {
     D <- list()
