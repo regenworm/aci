@@ -1,6 +1,6 @@
 
 sourceDir('./simulate_data/',trace=FALSE)
-i <- 1248237
+i <- 399589
 set.seed(i)
 n <- 11 # number of variables to simulate
 N <- 500 # number of data points
