@@ -19,7 +19,7 @@ loud<-function(nproc = 1) { # if -1 it tries to set to all of the available core
   library('foreach') # parallel for loops.
   library('doMC')    # parallel backend for the for loops
   library('expm') # matrix exponential, used in cpag_to_mc
-  #library('PRROC') # Plot ROC and PR curves (not a good library, better use Matlab).
+  library('PRROC') # Plot ROC and PR curves (not a good library, better use Matlab).
   library('caTools') # compute AUC
   if (nproc == -1){
     if (!system("nproc", ignore.stdout=TRUE, ignore.stderr = TRUE)){
@@ -36,6 +36,7 @@ loud<-function(nproc = 1) { # if -1 it tries to set to all of the available core
   sourceDir('./learn_model/',trace=FALSE)
   sourceDir('./test_indeps/',trace=FALSE)
   sourceDir('./utils/',trace=FALSE)
+  sourceDir('./jci/',trace=FALSE)
 }
 
 

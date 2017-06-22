@@ -1,5 +1,5 @@
 library(Rgraphviz)
-gfci_graph <- function(gfci) {
+gfci_graphviz <- function(gfci) {
   
   fileConn<-file("graph.dot")
   edges <- gfci$edges
