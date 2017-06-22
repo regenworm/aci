@@ -1,9 +1,10 @@
-library(rcausal)
-source('./jci/load_simdata.R')
+# source('./jci/load_simdata.R')
+# source('./jci/graphviz_dot.R')
+# source('./jci/process_trueGraph.R')
 # sourceDir('./jci',trace=FALSE)
 runGFCI <- function( a = 'gfci', # either gfci or fges
                             data_type = 'sim', # either sachs or sim
-                            addPrior = FALSE, # use background knowledge
+                            addPrior = TRUE, # use background knowledge
                             prior = c(), # specify background knowledge
                             n = 11, # number of variables
                             numInts = 7, # number of interventions
@@ -11,8 +12,8 @@ runGFCI <- function( a = 'gfci', # either gfci or fges
                             howmany = 100, # howmany simulated experiments 
                             showGraphs = TRUE
 ){
-  true_models <- list() # list that will contain all causal matrices for all simulated data.
-  learnt_models <- list() # list that will contain all causal matrices for learnt models for simulated data.
+  true_models <- c() # list that will contain all causal matrices for all simulated data.
+  learnt_models <- c() # list that will contain all causal matrices for learnt models for simulated data.
   allHits <- c()
   allTotals <- c()
   totalratio <- c()
@@ -41,15 +42,15 @@ runGFCI <- function( a = 'gfci', # either gfci or fges
           data <- sim_data$data
           
           trueGraph  <- sim_data$trueGraph
-          true_models <- append(true_models, as.vector(trueGraph))
+          true_models <- c(true_models, as.vector(trueGraph))
           
           
           # TODO: not correct, use intervention variables and discard the regime, then use background knowledge
           # than no intervention variable causes the others (similar to sachs)
           if (addPrior) {
-              forbiddenWithin <- colnames(data[12])
+              forbiddenWithin <- colnames(data[(n+1):ncol(data)])
               class(forbiddenWithin) <- 'forbiddenWithin' # Make this tier forbidden within
-              temporal <- list(forbiddenWithin,colnames(data)[1:11]) # List of temporal node tiers
+              temporal <- list(forbiddenWithin,colnames(data)[1:n]) # List of temporal node tiers
               prior <- priorKnowledge(addtemporal = temporal)
           }
       }
@@ -68,50 +69,56 @@ runGFCI <- function( a = 'gfci', # either gfci or fges
       }
       
       if (data_type == 'sim') {
-          # TODO: Change to function, same as before
-          source('jci/process_trueGraph.R')
           
-          # TODO: this is not the experimental matrix, but rather just the causal matrix.
-          experimentalMatrix <- matrix(0,11,11)
-          names <- c("V1"=1, "V2"=2, "V3"=3, "V4"=4, "V5"=5, "V6"=6, "V7"=7, "V8"=8, "V9"=9, "V10"=10, "V11"=11)
+          if (showGraphs) {
+            processed_tgraph <- process_trueGraph(trueGraph)
+            gfci_graph(processed_tgraph)
+          }
+        
+          
+          causalMatrix <- matrix(0,n,n)
+          names <- c()
+          for (v in 1:n) {
+            names[paste("V", v,sep="")] <- v
+          }
           
           for (edge in results$edges ) {
               edge <- strsplit(edge, " ")
-              cause <- edge[[1]][1]
-              result <- edge[[1]][3]
+              v1 <- edge[[1]][1]
+              v2 <- edge[[1]][3]
               
               if (edge[[1]][2] == 'o-o') {
-                experimentalMatrix[names[result], names[cause]] = 1
-                experimentalMatrix[names[cause], names[result]] = 1
+                causalMatrix[names[v2], names[v1]] = 1
+                causalMatrix[names[v1], names[v2]] = 1
               } else if (edge[[1]][2] == 'o->') {
-                experimentalMatrix[names[result], names[cause]] = 2
-                experimentalMatrix[names[cause], names[result]] = 1
+                causalMatrix[names[v2], names[v1]] = 2
+                causalMatrix[names[v1], names[v2]] = 1
               } else if (edge[[1]][2] == '<-o') {
-                experimentalMatrix[names[result], names[cause]] = 1
-                experimentalMatrix[names[cause], names[result]] = 2
+                causalMatrix[names[v2], names[v1]] = 1
+                causalMatrix[names[v1], names[v2]] = 2
               } else if (edge[[1]][2] == '-->') {
-                experimentalMatrix[names[result], names[cause]] = 3
-                experimentalMatrix[names[cause], names[result]] = 1
+                causalMatrix[names[v2], names[v1]] = 3
+                causalMatrix[names[v1], names[v2]] = 1
               } else if (edge[[1]][2] == '<--') {
-                experimentalMatrix[names[result], names[cause]] = 1
-                experimentalMatrix[names[cause], names[result]] = 3
+                causalMatrix[names[v2], names[v1]] = 1
+                causalMatrix[names[v1], names[v2]] = 3
               } else if (edge[[1]][2] == '<->') {
-                experimentalMatrix[names[result], names[cause]] = 3
-                experimentalMatrix[names[cause], names[result]] = 3
+                causalMatrix[names[v2], names[v1]] = 3
+                causalMatrix[names[v1], names[v2]] = 3
               } else if (edge[[1]][2] == '--o') {
-                experimentalMatrix[names[result], names[cause]] = 3
-                experimentalMatrix[names[cause], names[result]] = 1
+                causalMatrix[names[v2], names[v1]] = 3
+                causalMatrix[names[v1], names[v2]] = 1
               } else if (edge[[1]][2] == 'o--') {
-                experimentalMatrix[names[result], names[cause]] = 1
-                experimentalMatrix[names[cause], names[result]] = 3
+                causalMatrix[names[v2], names[v1]] = 1
+                causalMatrix[names[v1], names[v2]] = 3
               } else if (edge[[1]][2] == '---') {
-                experimentalMatrix[names[result], names[cause]] = 3
-                experimentalMatrix[names[cause], names[result]] = 3
+                causalMatrix[names[v2], names[v1]] = 3
+                causalMatrix[names[v1], names[v2]] = 3
               }
           }
           
-          results$tPositives <- length(intersect(which(experimentalMatrix> 0), which(trueGraph> 0)))
-          results$fPositives <-length(which(experimentalMatrix> 0))-results$tPositives
+          results$tPositives <- length(intersect(which(causalMatrix> 0), which(trueGraph> 0)))
+          results$fPositives <-length(which(causalMatrix> 0))-results$tPositives
           results$total <- length(trueGraph[trueGraph>0])
           
           print(paste("Hits: ", results$tPositives))
@@ -123,14 +130,13 @@ runGFCI <- function( a = 'gfci', # either gfci or fges
           totalratio[i] <- sum(allHits)/sum(allTotals)
       }
       
-      # TODO: change, when change name
-      learntGraph <- experimentalMatrix
+      learntGraph <- causalMatrix
       
-      learnt_models <- append(learnt_models, as.vector(learntGraph))
+      learnt_models <- c(learnt_models, as.vector(learntGraph))
   }
   stop <- proc.time()
   print(stop - start)
   plot(totalratio)
   
-  printSingleRocCurve(learnt_models, true_models, "gfci", paste("rocCurve_","_", howmany, ".pdf", sep=""))
+  printSingleRocCurve(learnt_models, true_models, "gfci", paste("./jci/rocCurve_", howmany, ".pdf", sep=""))
 }

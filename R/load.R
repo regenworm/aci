@@ -21,6 +21,8 @@ loud<-function(nproc = 1) { # if -1 it tries to set to all of the available core
   library('expm') # matrix exponential, used in cpag_to_mc
   library('PRROC') # Plot ROC and PR curves (not a good library, better use Matlab).
   library('caTools') # compute AUC
+  library('rcausal') # for running gfci algorithm
+  # library(Rgraphviz) # show graphs for gfci
   if (nproc == -1){
     if (!system("nproc", ignore.stdout=TRUE, ignore.stderr = TRUE)){
       nproc <- as.numeric(system("nproc", intern=TRUE))

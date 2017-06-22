@@ -1,4 +1,4 @@
-show_trueGraph <- function (trueGraph) {
+process_trueGraph <- function (trueGraph) {
   cause <- 1
   result <- 1
   
@@ -14,7 +14,6 @@ show_trueGraph <- function (trueGraph) {
     result <- 1
     cause <- cause + 1
   }
-  # gfci_graph(trueModel)
-  
+
   return(trueModel)
 }

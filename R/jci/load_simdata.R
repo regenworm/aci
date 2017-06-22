@@ -15,8 +15,21 @@ loadSimulatedData <- function (n=11, # number of variables to simulate
   intv <- matrix(0,N,numInts+1) 
   
   # name columns
-  colnames(data) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10", "V11")
-  colnames(intv) <- c('I0','I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7')
+  
+  dnames <- c()
+  inames <- c()
+  for (v in 1:n) {
+    dnames <- c(dnames, paste("V", v,sep=""))
+  }
+  for (v in 1:(numInts+1)) {
+    inames <- c(inames, paste("I", (v-1),sep=""))
+  }
+  
+  colnames(data) <- dnames
+  colnames(intv) <- inames
+  
+  # colnames(data) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10", "V11")
+  # colnames(intv) <- c('I0','I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7')
   
   # set values for intervention variables in sets 2 through 9
   for (i in 1:numInts) 
