@@ -8,7 +8,8 @@ loadSimulatedData <- function (n=11, # number of variables to simulate
   simulationConfig <- list(n=n, topology="random", exconf="passive", N=N, pedge = 1/(n-1), numInts=numInts, restrict = 'acyclic', confounder_proportion=0.5)
   MD <- simulate_data(simulationConfig=simulationConfig, samples=NULL, model=NULL, indPath=NULL, returnData=TRUE, typeOfSimulator = "int")
   data <- MD$D[[1]]$data # A table with the data to use for GFCI
-  trueGraph <- MD$M$C # The true graph (in matrix form) to compare with the results of GFCI
+  trueGraph <- MD$M$fullC # The true graph (in matrix form) to compare with the results of GFCI
+  trueGraph <- trueGraph[-(n+1),-(n+1)]
   
   N <- dim(data)[1]
   # create matrix with zeros

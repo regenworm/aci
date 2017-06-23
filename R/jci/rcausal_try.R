@@ -61,14 +61,14 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
       # execute method
       if (method == 'fges') {
           results <- fges(df = data, penaltydiscount = 2, maxDegree = -1, numOfThreads = 2, verbose = FALSE, priorKnowledge = prior)
-          causalMatrix <- gfci2causal(n=n,results=results,vnames=colnames(data))
+          causalMatrix <- gfci2causal(n=(n+numInts),results=results,vnames=colnames(data))
           if (showGraphs) {
             plot(results$graphNEL, nodeAttrs=makeNodeAttrs(results$graphNEL, fontsize=20))
           }
       } else if (method == 'gfci') {
           if (bootstrap == 0) {
             results <- gfci(df = data, priorKnowledge = prior, verbose=FALSE)
-            causalMatrix <- gfci2causal(n=n,results=results,vnames=colnames(data))
+            causalMatrix <- gfci2causal(n=(n+numInts),results=results,vnames=colnames(data))
           } else {
             results <- bootstrapgfci(data=data,n=n,N=N,repeat_bootstrap = bootstrap)
             causalMatrix <- results$causalMatrix
@@ -106,7 +106,7 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
   print(stop - start)
   if (data_type == 'sim') {
     plot(totalratio)
-    printSingleRocCurve(learnt_models, true_models, "gfci", paste("./jci/results/rocCurve_", howmany, ".pdf", sep=""))
+    printSingleRocCurve(learnt_models, true_models, "gfci", paste("./jci/results/rocCurve_", howmany, "_bootstrap", bootstrap,"_prior", addPrior, ".pdf", sep=""))
   }
   
 }

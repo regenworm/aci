@@ -21,9 +21,9 @@ gfci2causal <- function(n, # number of variables
     v2 <- edge[[1]][3]
     
     # if intervention variable, skip
-    if (substr(v1,1,1) == "I" || substr(v2,1,1) == "I") {
-      next
-    }
+    # if (substr(v1,1,1) == "I" || substr(v2,1,1) == "I") {
+    #   next
+    # }
     
     # if left
     if (substr(edge[[1]][2],1,1) == 'o') {
@@ -43,5 +43,7 @@ gfci2causal <- function(n, # number of variables
       causalMatrix[names[[v2]], names[[v1]]] <- 3
     }
   }
-  return(causalMatrix)
+  L <- cpag_to_mc(causalMatrix)
+  
+  return(L$C)
 }
