@@ -29,6 +29,7 @@ loadSachsData <- function ( n_of_exp = 14, # number of datasets used out of 14 a
   }
   
   # combine mapping/data and use only n_of_exp of the datasets
+  # remove regime variable
   data <- cbind(raw_data,intv)
   data <- data[which(raw_data[,12] <= n_of_exp),]
   data <- data[,-12]

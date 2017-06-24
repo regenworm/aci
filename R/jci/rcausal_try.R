@@ -16,8 +16,10 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
   true_models <- c() # list that will contain all causal matrices for all simulated data.
   learnt_models <- c() # list that will contain all causal matrices for learnt models for simulated data.
   allHits <- c()
+  allfPositives <- c()
   allTotals <- c()
-  totalratio <- c()
+  recall <- c()
+  precision <- c()
   start  <- proc.time()
 
   for (i in 1:howmany){
@@ -28,8 +30,6 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
               stop("Doesn't make sense to run Sachs experiments more than once.")
           }
           
-          # TODO: change to function, then can just call it directly, and return the objects
-          # Now if there is a name clash an object gets overwritten.
           data <- loadSachsData()
           
           if (addPrior) {
@@ -70,7 +70,7 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
             results <- gfci(df = data, priorKnowledge = prior, verbose=FALSE)
             causalMatrix <- gfci2causal(n=(n+numInts),results=results,vnames=colnames(data))
           } else {
-            results <- bootstrapgfci(data=data,n=n,N=N,repeat_bootstrap = bootstrap)
+            results <- bootstrapgfci(data=data,n=(n+numInts),N=N,repeat_bootstrap = bootstrap)
             causalMatrix <- results$causalMatrix
           }
           if (showGraphs) {
@@ -95,7 +95,10 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
           # ratio 
           allHits[i] <- results$tPositives
           allTotals[i] <- results$total
-          totalratio[i] <- sum(allHits)/sum(allTotals)
+          allfPositives[i] <- results$fPositives
+          recall[i] <- sum(allHits)/sum(allTotals)
+          precision[i] <- sum(allHits)/(sum(allfPositives) + sum(allHits))
+          
       }
       
       learntGraph <- causalMatrix
@@ -105,7 +108,7 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
   stop <- proc.time()
   print(stop - start)
   if (data_type == 'sim') {
-    plot(totalratio)
+    plot(recall,precision)
     printSingleRocCurve(learnt_models, true_models, "gfci", paste("./jci/results/rocCurve_", howmany, "_bootstrap", bootstrap,"_prior", addPrior, ".pdf", sep=""))
   }
   

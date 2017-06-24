@@ -47,7 +47,7 @@ bootstrapgfci.loop <- function(data_proportion=0.9999,
   L <- gfci(df=halfD,verbose=verbose)
   test_time <- toc(test_time)
   
-  L$causalMatrix <- gfci2causal(n=dim(data)[1],results = L,vnames=colnames(data))
+  L$causalMatrix <- gfci2causal(n=n,results = L,vnames=colnames(data))
   L$test_time <- test_time
   
   return(L)
