@@ -60,17 +60,23 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
       
       # execute method
       if (method == 'fges') {
-          results <- fges(df = data, penaltydiscount = 2, maxDegree = -1, numOfThreads = 2, verbose = FALSE, priorKnowledge = prior)
-          causalMatrix <- gfci2causal(n=(n+numInts),results=results,vnames=colnames(data))
+          if (bootstrap==0) {
+            results <- fges(df = data, penaltydiscount = 2, maxDegree = -1, numOfThreads = 2, verbose = FALSE, priorKnowledge = prior)
+            causalMatrix <- gfci2causal(n=(n+numInts),results=results,vnames=colnames(data))
+          } else {
+            results <- bootstrapgfci(data=data,n=(n+numInts),N=N,repeat_bootstrap = bootstrap,prior=prior,method=method)
+            causalMatrix <- results$causalMatrix
+          }
           if (showGraphs) {
-            plot(results$graphNEL, nodeAttrs=makeNodeAttrs(results$graphNEL, fontsize=20))
+            gfci_graph(results)
+            # plot(results$graphNEL, nodeAttrs=makeNodeAttrs(results$graphNEL, fontsize=20))
           }
       } else if (method == 'gfci') {
           if (bootstrap == 0) {
-            results <- gfci(df = data, priorKnowledge = prior, verbose=FALSE)
+            results <- gfci(df = data, priorKnowledge = prior, verbose=FALSE,maxDegree = -1,penaltydiscount = 1)
             causalMatrix <- gfci2causal(n=(n+numInts),results=results,vnames=colnames(data))
           } else {
-            results <- bootstrapgfci(data=data,n=(n+numInts),N=N,repeat_bootstrap = bootstrap)
+            results <- bootstrapgfci(data=data,n=(n+numInts),N=N,repeat_bootstrap = bootstrap,prior=prior,method=method)
             causalMatrix <- results$causalMatrix
           }
           if (showGraphs) {
@@ -105,11 +111,26 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
       
       learnt_models <- c(learnt_models, as.vector(learntGraph))
   }
+  if (data_type == 'sachs') {
+    gfci_graphviz(results)
+  }
   stop <- proc.time()
   print(stop - start)
   if (data_type == 'sim') {
     plot(recall,precision)
-    printSingleRocCurve(learnt_models, true_models, "gfci", paste("./jci/results/rocCurve_", howmany, "_bootstrap", bootstrap,"_prior", addPrior, ".pdf", sep=""))
+    print(paste("Mean recall: "), mean(recall))
+    print(paste("Mean precision: "), mean(precision))
+    printSingleRocCurve(learnt_models, true_models, method, paste("./jci/results/rocCurve_", howmany, "_bootstrap", bootstrap,"_prior", addPrior,method, ".pdf", sep=""))
   }
-  
+
+  return(list(eval = list(recall=recall,precision=precision), models = list(learnt_models=learnt_models, true_models=true_models), time = (stop-start)))
 }
+
+# a[1]<- runGFCI(method='gfci',addPrior=TRUE,howmany=100,bootstrap=0)
+# a[2]<- runGFCI(method='gfci',addPrior=FALSE,howmany=100,bootstrap=0)
+# a[3]<- runGFCI(method='gfci',addPrior=TRUE,howmany=100,bootstrap=10)
+# a[4]<- runGFCI(method='gfci',addPrior=FALSE,howmany=100,bootstrap=10)
+# a[5]<- runGFCI(method='fges',addPrior=TRUE,howmany=100,bootstrap=0)
+# a[6]<- runGFCI(method='fges',addPrior=FALSE,howmany=100,bootstrap=0)
+# a[7]<- runGFCI(method='fges',addPrior=TRUE,howmany=100,bootstrap=10)
+# a[8]<- runGFCI(method='fges',addPrior=FALSE,howmany=100,bootstrap=10)
