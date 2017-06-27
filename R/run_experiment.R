@@ -261,6 +261,17 @@ printSingleRocCurve<- function(learned_model, true_model, header, pdf_name) {
   }
 }
 
+printRocCurves<- function(learned_model, true_model, header, pdf_name) {
+  if (any(true_model) == 1){
+    pdf(pdf_name)
+    colnames(learned_model) <- header
+    AUC <-colAUC(learned_model, true_model, plotROC=TRUE, alg=c("ROC"))
+    par(new=TRUE)
+    dev.off()
+    write.csv(x=AUC, file=paste(pdf_name, "_auc.csv", sep=""))
+  }
+}
+
 printMatlabStyleCurves <- function(n, true_models, learned, tmpDir, type="ancestral") {
   matricesFile <- file.path(tmpDir, paste("matrices", "_", type,".txt", sep=""))
   matrices <- file(matricesFile, "w")

@@ -1,7 +1,7 @@
 library(Rgraphviz)
-gfci_graphviz <- function(gfci) {
-  
-  fileConn<-file("graph.dot")
+gfci_graphviz <- function(gfci, loc="./jci/results/sachsGraph.dot") {
+  # file.create(loc)
+  # fileConn<-file(loc)
   edges <- gfci$edges
   nodes <- gfci$nodes
   dotfile <- c("digraph ofzo {", "node [color=lightblue2, style=filled];")
@@ -27,6 +27,7 @@ gfci_graphviz <- function(gfci) {
   }
   
   dotfile <- c(dotfile, "}")
-  writeLines(dotfile, fileConn)
-  close(fileConn)
+  write(x=dotfile,file=loc)
+  # writeLines(dotfile, fileConn)
+  # close(fileConn)
 }

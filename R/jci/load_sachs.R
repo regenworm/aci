@@ -32,7 +32,8 @@ loadSachsData <- function ( n_of_exp = 14, # number of datasets used out of 14 a
   # remove regime variable
   data <- cbind(raw_data,intv)
   data <- data[which(raw_data[,12] <= n_of_exp),]
-  data <- data[,-12]
+  data <- data[,-12] # remove regime
+  data <- data[,-12] # remove icam (intervention 1,experiment2)
   n <- dim(data)[2]
   
   return(data)

@@ -73,7 +73,7 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
           }
       } else if (method == 'gfci') {
           if (bootstrap == 0) {
-            results <- gfci(df = data, priorKnowledge = prior, verbose=FALSE,maxDegree = -1,penaltydiscount = 1)
+            results <- gfci(df = data, priorKnowledge = prior,maxDegree = -1,penaltydiscount = 1,completeRuleSetUsed=TRUE, verbose=FALSE)
             causalMatrix <- gfci2causal(n=(n+numInts),results=results,vnames=colnames(data))
           } else {
             results <- bootstrapgfci(data=data,n=(n+numInts),N=N,repeat_bootstrap = bootstrap,prior=prior,method=method)
@@ -112,12 +112,12 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
       learnt_models <- c(learnt_models, as.vector(learntGraph))
   }
   if (data_type == 'sachs') {
-    gfci_graphviz(results)
+    gfci_graphviz(results,loc= paste("./jci/results/sachsGraph", "_bootstrap", bootstrap,"_prior", addPrior, method, ".dot", sep=""))
   }
   stop <- proc.time()
   print(stop - start)
   if (data_type == 'sim') {
-    plot(recall,precision)
+    # plot(recall,precision)
     print(paste("Mean recall: "), mean(recall))
     print(paste("Mean precision: "), mean(precision))
     printSingleRocCurve(learnt_models, true_models, method, paste("./jci/results/rocCurve_", howmany, "_bootstrap", bootstrap,"_prior", addPrior,method, ".pdf", sep=""))
@@ -126,11 +126,36 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
   return(list(eval = list(recall=recall,precision=precision), models = list(learnt_models=learnt_models, true_models=true_models), time = (stop-start)))
 }
 
-# a[1]<- runGFCI(method='gfci',addPrior=TRUE,howmany=100,bootstrap=0)
-# a[2]<- runGFCI(method='gfci',addPrior=FALSE,howmany=100,bootstrap=0)
-# a[3]<- runGFCI(method='gfci',addPrior=TRUE,howmany=100,bootstrap=10)
-# a[4]<- runGFCI(method='gfci',addPrior=FALSE,howmany=100,bootstrap=10)
-# a[5]<- runGFCI(method='fges',addPrior=TRUE,howmany=100,bootstrap=0)
-# a[6]<- runGFCI(method='fges',addPrior=FALSE,howmany=100,bootstrap=0)
-# a[7]<- runGFCI(method='fges',addPrior=TRUE,howmany=100,bootstrap=10)
-# a[8]<- runGFCI(method='fges',addPrior=FALSE,howmany=100,bootstrap=10)
+doSimTests <- function(method='gfci') {
+  clearnt <- c()
+  a <- runGFCI(method=method,addPrior=TRUE,howmany=100,bootstrap=0)
+  ctrue <- a$models$true_models
+  clearnt <- cbind(clearnt, a$models$learnt_models)
+  a <- runGFCI(method=method,addPrior=FALSE,howmany=100,bootstrap=0)
+  clearnt <- cbind(clearnt, a$models$learnt_models)
+  a <- runGFCI(method=method,addPrior=TRUE,howmany=100,bootstrap=10)
+  clearnt <- cbind(clearnt, a$models$learnt_models)
+  a <- runGFCI(method=method,addPrior=FALSE,howmany=100,bootstrap=10)
+  clearnt <- cbind(clearnt, a$models$learnt_models)
+
+  printRocCurves(clearnt, ctrue, c(paste(method,"1",sep=""), paste(method,"2",sep=""),paste(method,"3",sep=""),paste(method,"4",sep="")), paste("./jci/results/combinedSimCurves",method,".pdf",sep=""))
+  
+  return(list(clearnt=clearnt, ctrue=ctrue))
+}
+
+doSachsTests <- function(method='gfci') {
+  clearnt <- c()
+  a <- runGFCI(method=method,data_type='sachs',addPrior=TRUE,howmany=1,bootstrap=0,numInts = 7)
+  clearnt <- cbind(clearnt, a$models$learnt_models)
+  a <- runGFCI(method=method,data_type='sachs',addPrior=FALSE,howmany=1,bootstrap=0,numInts = 7)
+  clearnt <- cbind(clearnt, a$models$learnt_models)
+  # a <- runGFCI(method='gfci',data_type='sachs',addPrior=TRUE,howmany=1,bootstrap=10,numInts = 7)
+  # clearnt <- cbind(clearnt, a$models$learnt_models)
+  # a <- runGFCI(method='gfci',data_type='sachs',addPrior=FALSE,howmany=1,bootstrap=10,numInts = 7)
+  # clearnt <- cbind(clearnt, a$models$learnt_models)
+  
+  # printRocCurves(clearnt, ctrue, c(paste(method,"1",sep=""), paste(method,"2",sep=""),paste(method,"3",sep=""),paste(method,"4",sep="")), paste("./jci/results/combinedSachsCurves",method,".pdf",sep=""))
+  
+  return(clearnt)
+}
+
