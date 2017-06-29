@@ -3,7 +3,7 @@
 # source('./jci/process_trueGraph.R')
 # sourceDir('./jci',trace=FALSE)
 runGFCI <- function(method = 'gfci', # either gfci or fges
-                    data_type = 'sim', # either sachs or sim
+                    data_type = 'sim', # either sachs or sim or obs
                     addPrior = TRUE, # use background knowledge
                     prior = c(), # specify background knowledge
                     n = 11, # number of variables
@@ -56,6 +56,13 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
               temporal <- list(forbiddenWithin,colnames(data)[1:n]) # List of temporal node tiers
               prior <- priorKnowledge(addtemporal = temporal)
           }
+      } else if (data_type == 'obsS') {
+        
+        if (howmany>1) {
+          stop("Doesn't make sense to run Sachs experiments more than once.")
+        }
+        data <- loadObservational()
+        N <- dim(data)[1]
       }
       
       # execute method
@@ -113,6 +120,8 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
   }
   if (data_type == 'sachs') {
     gfci_graphviz(results,loc= paste("./jci/results/sachsGraph", "_bootstrap", bootstrap,"_prior", addPrior, method, ".dot", sep=""))
+  } else if (data_type == 'obsS') {
+    gfci_graphviz(results,loc= paste("./jci/results/obsSachsGraph", "_bootstrap", bootstrap,"_prior", addPrior, method, ".dot", sep=""))
   }
   stop <- proc.time()
   print(stop - start)
@@ -159,3 +168,11 @@ doSachsTests <- function(method='gfci') {
   return(clearnt)
 }
 
+# 
+# rm(list=ls())
+# setwd('~/aci/R/')
+# source('load.R')
+# loud()
+# a <- runGFCI(method='fges',addPrior=FALSE,howmany=100,bootstrap=10)
+# write.csv(x=a$models$learnt_models,file='fges4.csv')
+# printRocCurves(as.matrix(a$models$learnt_models),a$models$true_models, 'fges4', './jci/results/fges4.pdf')
