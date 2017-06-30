@@ -1,3 +1,4 @@
+# process_trueGraph:  convert causalMatrix to same format as results from rcausal methods
 process_trueGraph <- function (trueGraph) {
   cause <- 1
   result <- 1

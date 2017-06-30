@@ -1,3 +1,4 @@
+# loadSachsData:  process sachs dataset with JCI framework and return adjusted dataset with specified parameters
 loadSachsData <- function ( n_of_exp = 14, # number of datasets used out of 14 available
                             n_of_intv = 8, # number of intervention variables
                             data_location = '../experiments/sachs/data/sachs.csv'

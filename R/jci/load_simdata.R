@@ -1,3 +1,4 @@
+# loadSimulatedData:  generate datasets with specified parameters
 sourceDir('./simulate_data/',trace=FALSE)
 loadSimulatedData <- function (n=11, # number of variables to simulate
                                N=500, # number of data points
@@ -42,9 +43,13 @@ loadSimulatedData <- function (n=11, # number of variables to simulate
     intv[which(data[,12] == i),i-numInts] <- 1
   }
   
+  obsData <-data[which(data[,12] <= 1),]
+  obsData <- obsData[,-12] # remove regime
+  
   data1 <- cbind(data,intv) # combine intervention variables and data
   data1 <- data1[which(data[,12] <= numInts),] # only keep number of interventions specified
   data1 <- data1[,-(n+1)] # remove regime variable
   
-  return(list(data=data1, trueGraph=trueGraph))
+  
+  return(list(data=data1, trueGraph=trueGraph, obsData=obsData))
 }

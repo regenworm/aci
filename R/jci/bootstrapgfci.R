@@ -1,3 +1,5 @@
+# bootstrapgfci:      run method with bootstrap and specified parameters
+# bootstrapgfci.loop: Single loop iteration for bootstrapping method
 bootstrapgfci <- function(data_proportion=0.9999,
                           n=18,
                           N=500,
@@ -33,7 +35,7 @@ bootstrapgfci <- function(data_proportion=0.9999,
   vals <- which(L$causalMatrix>0, arr.ind = TRUE) 
   v1 <- colnames(data)[vals[,1]]
   v2 <- colnames(data)[vals[,2]]
-  L$edges <- paste(v1,v2,sep=" -> ")
+  L$edges <- paste(v2,v1,sep=" -> ")
   L$edgeDegrees <- L$causalMatrix[L$causalMatrix>0]
   return(L)
 }

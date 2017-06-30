@@ -1,3 +1,4 @@
+# convert2Ancestral:    Connect all parents to all children of children
 convert2Ancestral <- function(loc = './graph.dot', n=18) {
   file <- as.matrix(read.table(loc,sep='\n'))
   connections <- c()

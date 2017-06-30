@@ -1,7 +1,4 @@
-
-# setwd('bachelorthesis/aci-master/R')
-# source('load.R')
-# loud()
+#  fci_pcalg: run pcalg version of fci for sachs dataset
 
 fci_pcalg <- function() {
   ############ set up

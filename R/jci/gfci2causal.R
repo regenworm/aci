@@ -1,3 +1,4 @@
+# gfci2causal: convert results of running rcausal gfci to causal matrix
 gfci2causal <- function(n, # number of variables
                         results, # rcausal gfci object
                         data_type, # sachs or sim data
