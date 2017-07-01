@@ -6,7 +6,7 @@ runGFCI <- function(method = 'gfci', # either gfci or fges
                     addPrior = TRUE, # use background knowledge
                     prior = c(), # specify background knowledge
                     n = 11, # number of variables
-                    numInts = 7, # number of interventions
+                    numInts = 8, # number of interventions
                     N = 500,
                     howmany = 100, # howmany simulated experiments 
                     showGraphs = TRUE,
@@ -155,31 +155,34 @@ doSimTests <- function(method='gfci',data_type='sim') {
   clearnt <- c()
   if (data_type == 'sim') {
     a <- runGFCI(method=method,addPrior=TRUE,howmany=100,bootstrap=0,data_type = data_type)
+    clearnt <- cbind(clearnt, a$models$learnt_models)
   }
-  clearnt <- cbind(clearnt, a$models$learnt_models)
   a <- runGFCI(method=method,addPrior=FALSE,howmany=100,bootstrap=0,data_type = data_type)
   clearnt <- cbind(clearnt, a$models$learnt_models)
   ctrue <- a$models$true_models
   
   if (data_type == 'sim') {
     a <- runGFCI(method=method,addPrior=TRUE,howmany=100,bootstrap=10,data_type = data_type)
+    clearnt <- cbind(clearnt, a$models$learnt_models)
   }
-  clearnt <- cbind(clearnt, a$models$learnt_models)
   a <- runGFCI(method=method,addPrior=FALSE,howmany=100,bootstrap=10,data_type = data_type)
   clearnt <- cbind(clearnt, a$models$learnt_models)
 
-  printRocCurves(clearnt, ctrue, c(paste(method,"1",sep=""), paste(method,"2",sep=""),paste(method,"3",sep=""),paste(method,"4",sep="")), paste("./jci/results/combinedSimCurves",method,data_type,".pdf",sep=""))
-  
+  if (data_type == 'sim') {
+    printRocCurves(clearnt, ctrue, c(paste(method,"1",sep=""), paste(method,"2",sep=""),paste(method,"3",sep=""),paste(method,"4",sep="")), paste("./jci/results/combinedSimCurves",method,data_type,".pdf",sep=""))
+  } else if (data_type == 'obsSim') {
+    printRocCurves(clearnt, ctrue, c(paste(method,"2",sep=""),paste(method,"4",sep="")), paste("./jci/results/combinedSimCurves",method,data_type,".pdf",sep=""))
+  }
   return(list(clearnt=clearnt, ctrue=ctrue))
 }
 
 doSachsTests <- function(method='gfci',data_type='sachs') {
   clearnt <- c()
   if (data_type == 'sachs') {
-    a <- runGFCI(method=method,data_type='sachs',addPrior=TRUE,howmany=1,bootstrap=0,numInts = 7,data_type=data_type)
+    a <- runGFCI(method=method,data_type=data_type,addPrior=TRUE,howmany=1,bootstrap=0,numInts = 8)
     clearnt <- cbind(clearnt, a$models$learnt_models)
   }
-  a <- runGFCI(method=method,data_type='sachs',addPrior=FALSE,howmany=1,bootstrap=0,numInts = 7,data_type=data_type)
+  a <- runGFCI(method=method,data_type=data_type,addPrior=FALSE,howmany=1,bootstrap=0,numInts = 8)
   clearnt <- cbind(clearnt, a$models$learnt_models)
   return(clearnt)
 }
@@ -196,8 +199,4 @@ doAllTests <- function() {
   doSachsTests(method='fges')
   doSachsTests(data_type='obsS',method='fges')
 }
-# 
-# rm(list=ls())
-# setwd('~/aci/R/')
-# source('load.R')
-# loud()
+

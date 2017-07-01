@@ -1,0 +1,15 @@
+digraph ofzo {
+node [color=lightblue2, style=filled];
+edge [color=blue];
+"Raf";
+"Mek";
+"PLCg";
+"PIP2";
+"PIP3";
+"Erk";
+"Akt";
+"PKA";
+"PKC";
+"p38";
+"JNK";
+}

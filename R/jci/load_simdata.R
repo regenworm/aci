@@ -2,7 +2,7 @@
 sourceDir('./simulate_data/',trace=FALSE)
 loadSimulatedData <- function (n=11, # number of variables to simulate
                                N=500, # number of data points
-                               numInts=7,# number of datasets (interventions)
+                               numInts=8,# number of datasets (interventions)
                                i=399589 #seed 
 ){  
   set.seed(i)

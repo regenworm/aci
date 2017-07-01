@@ -1,0 +1,22 @@
+digraph ofzo {
+node [color=lightblue2, style=filled];
+"Raf";
+"Mek";
+"PLCg";
+"PIP2";
+"PIP3";
+"Erk";
+"Akt";
+"PKA";
+"PKC";
+"p38";
+"JNK";
+"JNK" -> "PKC" [dir=both arrowtail=dot];
+"PKA" -> "Erk" [dir=both arrowtail=dot arrowhead=dot]
+"Erk" -> "Akt" [dir=both arrowtail=dot arrowhead=dot]
+"p38" -> "PKC" [dir=both arrowtail=dot];
+"PIP2" -> "PIP3" [dir=both arrowtail=dot arrowhead=dot]
+"PKA" -> "Akt" [dir=both arrowtail=dot arrowhead=dot]
+"PIP3" -> "PLCg" [dir=both arrowtail=dot arrowhead=dot]
+"Raf" -> "Mek" [dir=both arrowtail=dot arrowhead=dot]
+}
