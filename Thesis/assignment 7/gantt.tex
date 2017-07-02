@@ -1,0 +1,42 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usepackage{gantt}
+
+\begin{document}
+
+\begin{figure}
+    \centering
+    \begin{gantt}[today=5]{18}{10}
+    \begin{ganttitle}
+    \titleelement{Week}{10}
+    \end{ganttitle}
+    \begin{ganttitle}
+    \numtitle{4}{1}{13}{1}
+    \end{ganttitle}
+    \ganttbar[color=green]{Understand codebase}{0}{2}
+    \ganttbar[color=green]{Get code running}{0}{2}
+    \ganttbar[color=green]{Research methods for JCI}{1}{3}
+    
+    \ganttbar[color=green]{Combine method with JCI}{2}{4}    
+    \ganttbar[color=green]{Find deterministic relations}{3}{1}
+    \ganttbar[color=green]{Remove deterministic relations}{4}{1}
+    \ganttbar[color=green]{Add forbidden edges}{5}{1}
+    \ganttmilestone[color=green]{Literature review}{3}
+    
+    
+    \ganttmilestone[color=green]{Midterm report}{6}
+    \ganttmilestone[color=green]{GFCI-JCI first application}{6}
+    \ganttbar[color=orange]{Add background knowledge}{6}{2}
+    \ganttmilestone[color=orange]{Intro thesis finished}{7}
+    \ganttbar{Explore more parameters}{7}{1}
+    \ganttbar{Improve performance on real data}{7}{2}
+    \ganttbar{Finish thesis}{8}{2}
+    \ganttmilestone{Application finished}{9}
+
+
+  \end{gantt}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+\end{document}

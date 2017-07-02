@@ -1,0 +1,68 @@
+a%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREAMBLE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+\newif\ifquoteopen
+\catcode`\"=\active % lets you define `"` as a macro
+\DeclareRobustCommand*{"}{%
+   \ifquoteopen
+     \quoteopenfalse ''%
+   \else
+     \quoteopentrue ``%
+   \fi
+}
+% nice clickable URLs
+\usepackage{url} 
+
+% page margins 
+\setlength{\paperwidth}{494pt} % A4
+\setlength{\textwidth}{485pt}
+\setlength{\hoffset}{0pt}
+\setlength{\oddsidemargin}{-5pt}
+\setlength{\paperheight}{846pt} % A4
+\setlength{\textheight}{700pt}
+\setlength{\voffset}{0pt}
+\setlength{\topmargin}{-50pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{25pt}
+\setlength{\parindent}{0pt} % {20pt}
+\setlength{\parskip}{4pt plus 2pt minus 1pt}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEADING 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rule{\textwidth}{1pt}
+
+\textbf{Neuro Linguistic Decoding} \hfill 2017
+\rule{\textwidth}{1pt}
+\vspace*{20pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ENTER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% write the homework number in place of "NUM"
+\textbf{Tender for Neuro Linguistic Decoding thesis project}
+
+% write your name(s) in place of "NAME(S)"
+\textbf{Name:} Alex Khawalid, 10634207\\
+\textbf{Supervisors:} Samira Abnar, Jelle Zuidema\\
+\today
+
+% why me
+Throughout my entire bachelor, I have always taken extra courses. The reason for this is that I wanted to explore and understand, at least a small part, of different fields. Since some of the extra courses I took were outside of my field of expertise, I have experience with figuring out things in a field I am not necessarily comfortable with.  My main interest is still Artificial Intelligence, but I know it can be applied to almost anything in a meaningful way. My "Leren en Beslissen" project involved a Word Embeddings implementation, so I have some experience with Word Embeddings.
+
+% motivation
+Last semester I finished a course called Computational Cognitive Neuroscience, this course involved simulating and understanding certain processes in the brain. The biological side of it was interesting to me, I expect that this research project's subject will be interesting to me in the same way. I'm curious about how the representation of concepts in the brain differ from our computational representations. Part of this interest comes from what it could change in our way of representing knowledge in AI systems.
+
+% approach
+The first goal is to thoroughly understand the concepts necessary, so I will refamiliarise myself with word embeddings and study the two resources provided in the project description. Then a proper implementation of the word representations has to be made, I would prefer to do this in python as it is a language i am familiar. Python also allows for neat modular coding and data processing. The next step would be to make a classifier which can properly classify these word representation, the classifier will be using linear regression. With the time left after these tasks, I would like to try and implement a fuzzy logic classifier. Since Fuzzy Logic allows for a more nuanced classification of different classes as well as being a universal approximator, I think it looks promising as an approach to modeling this process. However this seems like something that would be nice to discuss with the project supervisor.
+
+% results
+I expect that using the resources provided I can replicate the experiment mentioned in the project description, as well as improving the performance with a fuzzy logic classifier in place of linear regression. 
+
+\end{document}

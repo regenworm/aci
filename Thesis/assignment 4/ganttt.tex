@@ -1,0 +1,41 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usepackage{gantt}
+
+\begin{document}
+
+\begin{figure}
+    \centering
+    \begin{gantt}{18}{10}
+    \begin{ganttitle}
+    \titleelement{Week}{10}
+    \end{ganttitle}
+    \begin{ganttitle}
+    \numtitle{4}{1}{13}{1}
+    \end{ganttitle}
+    \ganttbar{Understand codebase}{0}{2}
+    \ganttbar{Get code running}{0}{2}
+    \ganttbar{Research combination methods}{0}{3}
+    \ganttbar{Assign subsets}{2}{1}
+    
+    \ganttbar{Optimize combinations}{3}{3}
+    \ganttmilestone{Literature review}{4}
+    \ganttbar{Efficient subsets}{4}{3}
+    \ganttmilestone{Combinations finished}{5}
+    
+    \ganttmilestone{Midterm report}{6}
+    \ganttmilestone{Intro thesis finished}{7}
+    \ganttmilestone{Subsets finished}{7}
+    \ganttbar{Apply method \& compare}{4}{4}
+    \ganttbar{Clean code}{8}{1}
+    \ganttbar{Write docs}{8}{1}
+    \ganttbar{Finish thesis}{8}{2}
+    \ganttmilestone{Application finished}{8}
+
+
+  \end{gantt}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+\end{document}

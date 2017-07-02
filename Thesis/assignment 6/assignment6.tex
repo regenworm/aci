@@ -1,0 +1,102 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREAMBLE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+% nice clickable URLs
+\usepackage{url}  
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{color}
+% conditional independence
+\newcommand{\bigCI}{\mathrel{\text{{$\perp\mkern-10mu\perp$}}}}
+\newcommand{\Sara}[1]{{\color{blue} Sara: #1}}
+
+% page margins 
+\setlength{\paperwidth}{494pt} % A4
+\setlength{\textwidth}{420pt}
+\setlength{\hoffset}{-30pt}
+\setlength{\oddsidemargin}{-5pt}
+\setlength{\paperheight}{846pt} % A4
+\setlength{\textheight}{700pt}
+\setlength{\voffset}{0pt}
+\setlength{\topmargin}{-50pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{25pt}
+\setlength{\parindent}{0pt} % {20pt}
+\setlength{\parskip}{4pt plus 2pt minus 1pt}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEADING 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rule{\textwidth}{1pt}
+
+\textbf{Thesis} \hfill 2017
+\rule{\textwidth}{1pt}
+\vspace*{20pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ENTER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% write the homework number in place of "NUM"
+\textbf{Assignment 6:  Academic English 1 (Literature review)}
+
+% write your name(s) in place of "NAME(S)"
+\textbf{Name:} Alex Khawalid, 10634207\\
+\textbf{Supervisor:} Sara Magliacane\\
+\today	
+\section{Literature Review}
+
+% \Sara{A small note for the citations that will be useful also for the thesis. Usually you should cite the first time you mention a method, or if your citing a definition (e.g. the Markov assumption) close to the first mention.}
+
+Causal discovery, a field in statistics, is the cornerstone of this research. A few terms should be explained before delving further into the subject of this thesis.
+
+Causal discovery aims to uncover causal relations between random variables. In the context of causal discovery, a causal relation is a relation where given an intervention that changes X, Y changes as well. This in turn means that X causes Y.
+These causal relations can be represented by causal graphs. The methods that will be presented in this thesis will generate causal graphs based on a dataset.
+In general, there are two categories of causal discovery; score-based and constraint-based. The main framework that will be discussed is part of the constraint-based type of causal discovery. As opposed to score-based methods, these methods also allow for the presence of latent variables in a system, which is often the case in real-world applications.
+
+Constraint-based causal discovery usually relies on a few assumptions. The two main assumptions are the Markov Assumption and the Faithfulness assumption \cite{fci,jci}, which together define the correspondence between statistical independences and combinations of edges in the graphs. Using these assumptions a causal graph can be constructed from the results of the statistical independence tests in the data.
+
+Ancestral Causal Inference (ACI) \cite{aci} is a recently developed constraint-based method that produced similar accuracy results to other state of the art methods but with lower running times. ACI produces an ancestral structure, this is one of the factors that allow it to run faster than similar methods with different representations by orders of magnitude. 
+
+Local Causal Discovery (LCD) \cite{cooper1999causal} is a constraint-based method that discovers causal relations for a simple causal pattern. With respect to ACI, this method can exploit better the information from multiple observational and experimental data, but it can only use a limited amount of information from independence tests.
+
+Using the concepts discussed in the previous section the primary focus of this research, Joint Causal Inference (JCI) \cite{jci} can be discussed. JCI is a framework used to discover causal relations from multiple observational and experimental datasets that extends the ideas from LCD. JCI contains a set of assumptions which enables methods to use multiple datasets to generate a general underlying causal graph across all of the datasets.  The paper ``Joint Causal Inference from Observational and Experimental Datasets'' \cite{jci} highlights some problems with faithfulness violations which are caused by deterministic relations from JCI. These problems are solved using an extension of ACI called Ancestral Causal Inference with Determinism (ACID). It also discusses the advantages ACID-JCI has over other methods of causal inference. Furthermore it explains that ACID-JCI allows for the structure it is learning to have latent variables. Similarly to ACI, the output model is an ancestral structure. ACID-JCI has successfully been tested on simulated data. One of the issues of ACID-JCI is the scalability of the method. Specifically, the method runs in a reasonable time only for a handful of variables, while many real-world problems are more complex. 
+
+%\Sara{I think there is not need to discuss the solution that will developed in the thesis in the lit. review, so I'm commenting it out}
+%The proposed solution to scale ACID-JCI is as follows:
+%\begin{itemize}
+%    \item Assign overlapping subsets of variables
+%    \item Run ACID-JCI on subsets
+%    \item Combine models produced by ACID-JCI
+%\end{itemize}
+
+%This seems like a trivial problem to solve, however there is some difficulty involved because of the way ACID-JCI scores its edges. ACID-JCI does not give its edges a probability, it scores its edges with a confidence score. This confidence score is an approximation and it is not normalised. This makes the combination of the causal graphs more complicated than it seems. Considering the time constraints for this paper this approach was deemed unrealistic.
+
+As JCI is a framework, it can be applied to several different methods, one of these methods is FCI \cite{fci}. Like most current constraint-based methods, FCI cannot deal with determinism, so it can be applied to a simplified version of JCI with no deterministic relations. FCI separates its search for a true graph in two operations. It starts by ruling out direct paths from one node to another by using conditional independence tests. After all of the adjacencies that do not belong have been removed, FCI attempts to orient all of the edges in its graph. Unlike ACI, FCI produces a partial ancestral graph (PAG), which is Markov equivalence class similar to an ancestral structure but it allows for undirected edges. Moreover, it is much more scalable in the number of variables, making it a good candidate for a real-world application of the simplified JCI setting.
+
+The simplified JCI setting without deterministic relations can be implemented also with GFCI \cite{gfci}. GFCI is a combination of GES and FCI, it uses GES to improve the accuracy of FCI. GES \cite{ges} is a score-based method which uses heuristics to search for the true graph. One of the disadvantages this method has is that it assumes there are no latent confounders. When these latent confounders are present, it is possible GES will find adjacencies that are not present in the true graph.\cite[p.~372]{gfci}
+In GFCI, the first part of FCI, the removal of adjacencies through independence tests, is performed on the results of GES. This enhances the accuracy of the algorithm by removing edges. Subsequently the results of GES are used in directing the edges during FCI. This results in a more accurate PAG with more directed edges. Taking these facts into account, GFCI seems like an appropriate method to apply JCI to.
+
+%A different method for causal discovery which can benefit this research is GES \cite{ges}. GES is a score-based method which uses heuristics to search for the true graph. One of the disadvantages this method has is that it assumes there are no latent confounders. When these latent confounders are present, it is possible GES will find adjacencies that are not present in the true graph.\cite[p.~372]{gfci}
+
+% However to apply JCI to FCI determinism has to be removed. To achieve this goal, a method to find all deterministic relations has to be developed and this method will have to be complete. Once these relations have been found, they have to be removed.
+
+Since JCI has only been tested on simulated data, it will be tested on a real-world biological dataset in this thesis project.  The data that JCI will be tested on will be obtained from ``Causal Protein-Signaling Networks Derived from Multiparameter Single-Cell Data'' \cite{sachs2005causal}. This paper describes the dataset which will be used and is necessary to understand it.  The dataset contains data about protein concentrations after adding certain drugs that act as inhibitors or activators of certain proteins. The purpose of applying JCI to such biological datasets is to uncover causal relations in cell signalling networks. Gaining more insight into these cell signalling networks will help in treating diseases more effectively. Understanding cell signalling networks shows how cells react to their environment and how they decide what actions to take.
+
+This dataset was also analysed with another method for causal discovery proposed by Eaton and Murphy \cite{eaton2007exact}. This method is of the score-based type of causal discovery methods, so it assume there are no latent variables in the system. In this paper Eaton and Murphy applied a technique using Dynamic Programming (DP). The result that this algorithm produces is a causal Directed Acyclical Graph (DAG). ``Exact Bayesian structure learning from uncertain interventions'' illustrates how they successfully applied this techniques. 
+    
+
+% The dataset being used has a rather large number of variables, ACID-JCI cannot deal with this many variables at once. The main question this thesis project will be answering is how to scale ACID-JCI.
+
+
+\bibliographystyle{abbrv}
+\bibliography{ref1} 
+\end{document}

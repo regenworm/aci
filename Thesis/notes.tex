@@ -1,0 +1,178 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREAMBLE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+% nice clickable URLs
+\usepackage{url} 
+\usepackage{amsmath}
+
+\newcommand{\bigCI}{\mathrel{\text{{$\perp\mkern-10mu\perp$}}}}
+
+% page margins 
+\setlength{\paperwidth}{494pt} % A4
+\setlength{\textwidth}{485pt}
+\setlength{\hoffset}{0pt}
+\setlength{\oddsidemargin}{-5pt}
+\setlength{\paperheight}{846pt} % A4
+\setlength{\textheight}{700pt}
+\setlength{\voffset}{0pt}
+\setlength{\topmargin}{-50pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{25pt}
+\setlength{\parindent}{0pt} % {20pt}
+\setlength{\parskip}{4pt plus 2pt minus 1pt}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEADING 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rule{\textwidth}{1pt}
+
+\textbf{Thesis Project} \hfill 2017
+\rule{\textwidth}{1pt}
+\vspace*{20pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ENTER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% write the homework number in place of "NUM"
+\textbf{Notes}
+
+% write your name(s) in place of "NAME(S)"
+\textbf{Name:} Alex Khawalid, 10634207\\
+\textbf{Supervisor:} Sara Magliacane\\
+\today
+
+\section{Statistics}
+\subsection{Terms related to statistics}
+\begin{enumerate}
+    \item \textbf{Confounder:} ``A confounder is a variable that is correlated (directly or inversely) to the independent variable and correlated to the dependent variable.''\cite{wiki:confounding}
+    
+    \item \textbf{Latent confounder:} An unobserved confounder.
+    
+    \item \textbf{Sets:} Sets are a collection of variables, they are denoted as a bold capital letter, for example \textbf{X}.
+    
+    \item \textbf{Disjoint sets:} Disjoint sets are sets with no overlap, for example \textbf{X} and \textbf{W} are disjoint sets if $\forall X \in \textbf{X}, \neg \exists X \in \textbf{W}$
+    
+    \item \textbf{Cardinality:} The size of a set, for example \textbf{W} = \{1,2,3\}. Thus \textbf{W} has a cardinality of 3. The cardinality of set \textbf{W} is denoted as $\vert \textbf{W} \vert$
+    
+    \item \textbf{Probability Distribution:}
+    
+    \item \textbf{Conditional Dependence:} Two sets of random variables \textbf{X} and \textbf{Y} can be dependent. However some common cause might exist that could introduce a conditional dependence. Given a probability distribution $\mathcal{P}$, the conditional independence is denoted as $\textbf{X} \bigCI \textbf{Y} \vert \textbf{W}[\mathcal{P}]$
+\end{enumerate}
+
+\subsection{Directed Acyclical Graphs}
+A DAG is a model which has points called nodes. These nodes are connected together using lines, these are called edges. These edges can be directed so they only connect nodes in one direction. In a DAG the edges connecting the nodes cannot be reflexive (point to themselves) or cyclical (a node cannot have an assortment of edges leading back to itself) and are always directed.
+
+\subsubsection{DAG terms}
+\begin{enumerate}
+    \item \textbf{Path:} If there is an assortment of edges leading from X to Y, there is a path between X and Y. This is denoted as $X \to Y$\\
+    
+    \item \textbf{No path:} If there is no path from X to Y, this is denoted as $X \not \to Y$\\
+    
+    \item \textbf{d-seperation:} Two nodes, X and Y, are d-separated if there is no path connecting them. This is denoted as $X \perp_d Y$
+    
+    \item \textbf{d-connection:} Two nodes are d-connected if there is a path to connect them. This is denoted as $X \not\perp_d Y$.
+    
+    \item \textbf{Causal DAG:} A DAG in which each edge represents a direct causal relation.
+    
+    \item \textbf{Ancestral structure:} A type of DAG which can represent indirect causal relations. In an ancestral structure it is not certain if an edge represents an indirect or direct causal relation. 
+    
+\end{enumerate}
+
+\subsubsection{DAG functions}
+\begin{enumerate}    
+    
+    \item \textbf{Ancestor relationship:}
+    All nodes which have a path available to node X and are not node X, are ancestors of X.
+    This relationship is denoted as $AN(X)$.\\
+    
+    The ancestral relationship has the following property:\\
+    $\textbf{W} = AN(X)$\\
+    $\forall W \in \textbf{W}, W \to X$
+    
+    If \textbf{W} is the set of ancestors of X, then for all elements W in \textbf{W} there is a path to X.\\
+    
+    
+    \item \textbf{Parent relationship:}
+    All nodes which have an edge connecting to node X and are not node X, are parents of X.
+    This relationship is denoted as $PA(X)$.\\
+
+\end{enumerate}
+   
+\subsubsection{DAG structures}
+\begin{enumerate}
+     \item \textbf{Collider:}
+    When a node has two nodes with directed edges leading into it, it is known as a collider.
+    
+    Properties of colliders:
+    \begin{enumerate}
+        \item
+    \end{enumerate}
+    
+    \item \textbf{Fork:}
+    When a node has two directed edges leading out of it, it is known as a fork.
+    
+    Properties of forks:
+    \begin{enumerate}
+        \item
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Causal Inference}
+Causal Inference is a statistical technique which is used to discover causal relationships between variables.
+
+\subsection{Terms related to Causal Inference Methods}
+\begin{enumerate}
+    \item \textbf{Score-based methods:}
+    ``Methods which are score-based evaluate a model using a penalized likelihood score.''\cite[p.~2]{jci} 
+    
+    % I don't get how these methods work, based on what do they penalize the likelihood score?
+    
+    ``Score-based approaches try to find the graph G that maximizes the like- lihood of the data given G (or the posterior), according to the factorization imposed by G''.\cite[p.~1]{triantafillouscore}
+    
+    \item \textbf{Constraint-based methods:}
+    ``Methods which are constraint-based use statistical independencies to express constraints over possible models''.\cite[p.~2]{jci}
+    
+ 
+    
+    ``Constraint-based approaches query the data for conditional independencies and try to find a DAG/MAG that entails all (and only) the corresponding d-separations''. \cite[p.~1]{triantafillouscore}
+    
+\end{enumerate}
+
+
+\subsection{Causal Inference Methods}
+\begin{enumerate}
+    \item \textbf{Joint Causal Inference (JCI):} ``JCI is a formulation of causal discovery over multiple datasets in which both the causal structure and targets of interventions are jointly learnt from independence test results in pooled data.''\cite[p.~2]{jci} This means it allows for the use of multiple datasets, which is not the case for other methods. It also means that when using interventions, it is not necessary to know what the targets of these interventions are. It is an extension of the method applied by Eaton and Murphy in ``Exact Bayesian structure learning from uncertain interventions''.\cite[p.~2]{jci,eaton2007exact}\\
+    
+    % What is an independence test?
+    
+    Pros of using JCI:
+    \begin{enumerate}
+        \item Allows different intervention types
+        \item Can learn intervention targets
+        \item Pools datasets for improved power of statistical independence tests
+        \item improves identifiability and accuracy of the predicted causal relations
+        % how?
+    \end{enumerate}
+    
+    In JCI where $n$ datasets are used, each dataset has an associated probability distribution $\mathcal{P_{r\in1,...,n}}$. Each of these datasets is assumed to be Markov and faithful in respect to the underlying DAG $\mathcal{G}$ which is the DAG model representing the causal relationships in all of the datasets.
+    
+\end{enumerate}
+
+
+\section{Data}
+\subsection{Terminology}
+\begin{enumerate}
+    \item \textbf{Protein Signalling Networks (PSNs):} See carl hendriks thesis introduction
+    \item \textbf{Regime:} A regime is the term used to refer to a dataset.
+    \item \textbf{Observational dataset:} An observational dataset is a dataset in which no interventions are used.
+\end{enumerate}
+\bibliographystyle{abbrv}
+\bibliography{ref1} 
+\end{document}

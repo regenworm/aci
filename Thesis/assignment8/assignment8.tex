@@ -1,0 +1,69 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREAMBLE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+% nice clickable URLs
+\usepackage{url}  
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{color}
+% conditional independence
+\newcommand{\bigCI}{\mathrel{\text{{$\perp\mkern-10mu\perp$}}}}
+\newcommand{\Sara}[1]{{\color{blue} Sara: #1}}
+
+% page margins 
+\setlength{\paperwidth}{494pt} % A4
+\setlength{\textwidth}{420pt}
+\setlength{\hoffset}{-30pt}
+\setlength{\oddsidemargin}{-5pt}
+\setlength{\paperheight}{846pt} % A4
+\setlength{\textheight}{700pt}
+\setlength{\voffset}{0pt}
+\setlength{\topmargin}{-50pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{25pt}
+\setlength{\parindent}{0pt} % {20pt}
+\setlength{\parskip}{4pt plus 2pt minus 1pt}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEADING 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rule{\textwidth}{1pt}
+
+\textbf{Thesis} \hfill 2017
+\rule{\textwidth}{1pt}
+\vspace*{20pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ENTER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% write the homework number in place of "NUM"
+\textbf{Assignment 8:  Academic English 2 (Introduction)}
+
+% write your name(s) in place of "NAME(S)"
+\textbf{Name:} Alex Khawalid, 10634207\\
+\textbf{Supervisor:} Sara Magliacane\\
+\today	
+\section{Introduction}
+When examining data in the field of statistics, occasionally a correlation may occur between two events that seem unlikely to be related in any way. When these correlations are discovered they are sometimes mistaken as a causal relation between these two events. However the phrase `correlation is not causation' is often uttered in reply to these mistaken assumptions. While it is true that a correlation is not sufficient to prove a causal relation, what is? Causal inference \cite{Pearl2009inference,Spirtes2000} is a specific subset of statistics that tries to find methods to uncover these causal relations.
+
+Within the field of causal inference, a number of different methods exist. These methods generally attempt to produce models to represent the causal structure underlying the data. Nearly every method can be assigned to one of two categories; score-based methods and constraint-based methods. Ordinarily score-based methods rate the possible outputs and use the best scoring model to represent the causal structure underlying the data. Constraint-based methods use assumptions to eliminate the possible models which can represent the causal structure.
+
+Joint Causal Inference (JCI)\cite{jci} is a recently proposed framework that aims at discovering causal relations based on multiple observational and experimental datasets. Similarly to other causal inference methods, the overall goal of JCI is to find causal relations without extensive experimentation. This will enable more purposeful and less expensive research in some fields, for example biology.
+
+Currently JCI has only been tested on simulated data and is exclusively applicable to systems with a small number of variables \cite{jci}. By using observational data as well as experimental data JCI is hypothesised to be able to uncover causal relations for systems in general. Though there are drawbacks to using JCI. The deterministic relations caused by JCI are problematic since it means JCI can only be used in combination with certain methods.
+
+In this thesis, a simplified version of JCI will be focused on. A less complex JCI will allow for the use of any established method for causal inference. An implementation of this simplified framework will be developed and applied to a real-world biological dataset. To accomplish this, an approach for scaling JCI to a larger number of variables must be designed.
+
+
+\bibliographystyle{abbrv}
+\bibliography{ref1} 
+\end{document}

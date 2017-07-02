@@ -1,0 +1,67 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREAMBLE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+% nice clickable URLs
+\usepackage{url} 
+
+% page margins 
+\setlength{\paperwidth}{494pt} % A4
+\setlength{\textwidth}{485pt}
+\setlength{\hoffset}{0pt}
+\setlength{\oddsidemargin}{-5pt}
+\setlength{\paperheight}{846pt} % A4
+\setlength{\textheight}{700pt}
+\setlength{\voffset}{0pt}
+\setlength{\topmargin}{-50pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{25pt}
+\setlength{\parindent}{0pt} % {20pt}
+\setlength{\parskip}{4pt plus 2pt minus 1pt}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEADING 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rule{\textwidth}{1pt}
+
+\textbf{Thesis Project} \hfill 2017
+\rule{\textwidth}{1pt}
+\vspace*{20pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ENTER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% write the homework number in place of "NUM"
+\textbf{Assignment 2: What is AI research?}
+
+% write your name(s) in place of "NAME(S)"
+\textbf{Name:} Alex Khawalid, 10634207\\
+\textbf{Supervisor:} Sara Magliacane\\
+\today
+
+\section{Causal discovery from multiple observational and experimental datasets in the context of protein signalling networks thesis project}
+Joint Causal Inference (JCI) is a recently proposed framework that aims at discovering causal relations based on observational and experimental data. Currently JCI has only been tested on simulated data and is exclusively applicable to systems with a small number of variables. This thesis project will apply JCI to a real-world biological dataset, which requires designing ways to make it scale to a larger number of variables. Solving this scalability problem will involve running JCI multiple times on different subsets of the data. Afterwards a theoretically sound method of combining the models produced by JCI must be applied. The algorithm that picks the subsets of data and combines these models will be the main theoretical result of this project.
+
+This thesis is of the formal science type. It seeks to find a theoretically sound way to select and combine multiple JCI models. Although it could also fit into the natural/empirical science category as it also seeks to verify the validity of JCI by testing it on real data which is non trivial.
+
+A more general version of this problem is finding a method for combining DAG models produced representing Structural Causal Models across all fields. This would require more experimental and observational datasets as well as requiring more time than is available for this project.
+
+When talking about a more specific version of this problem, the thesis could be aimed at finding a scaling solution specifically aimed at a given dataset, e.g. the biological dataset we are considering. This is too specific to be useful for any other situation than a test situation, therefore it is not a better problem
+
+
+\section{Modelling fonts with convolutional neural networks}
+
+The aim of this project is to find a way to model fonts with convolutional neural networks. The result will most likely be a system which can extract features from fonts. Using these features the system will be able to model these fonts.
+
+Depending on the evaluation method used, this project is of the formal science type. The evaluation will be done by comparing its results with different systems. The system will be able to formally describe what differences are important when dealing with different fonts.
+
+Making a more general version of this problem would involve extracting features from any symbol system, which would include handwriting and writing systems which do not use the western alphabet. This would introduce more difficulty as it requires dealing with more inconsistencies than the current problem. Given the timeframe, this does not seem like a realistic problem to solve.
+
+A different problem which is more specific could be extracting features from a single font and using these to model it. However, looking at more fonts would clarify which features are more important than others when differentiating between fonts. This leads to a more comprehensive model which in turn can model fonts better as it lays more emphasis on these differentiating features. 
+\end{document}
