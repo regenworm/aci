@@ -1,6 +1,6 @@
 digraph ofzo {
-node [color=lightblue2, style=filled];
-edge [color=blue];
+node [color=lightblue2, style=filled, fontsize=50];
+edge [color=grey, arrowsize=2.5];
 "Raf";
 "Mek";
 "PLCg";

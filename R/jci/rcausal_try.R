@@ -179,10 +179,10 @@ doSimTests <- function(method='gfci',data_type='sim') {
 doSachsTests <- function(method='gfci',data_type='sachs') {
   clearnt <- c()
   if (data_type == 'sachs') {
-    a <- runGFCI(method=method,data_type=data_type,addPrior=TRUE,howmany=1,bootstrap=0,numInts = 8)
+    a <- runGFCI(method=method,data_type=data_type,addPrior=TRUE,howmany=1,bootstrap=0,numInts = 14)
     clearnt <- cbind(clearnt, a$models$learnt_models)
   }
-  a <- runGFCI(method=method,data_type=data_type,addPrior=FALSE,howmany=1,bootstrap=0,numInts = 8)
+  a <- runGFCI(method=method,data_type=data_type,addPrior=FALSE,howmany=1,bootstrap=0,numInts = 14)
   clearnt <- cbind(clearnt, a$models$learnt_models)
   return(clearnt)
 }
